@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Artist Details</title>
+</head>
+<body>
+    <h1>Artist Details</h1>
+    <p><strong>Name:</strong> {{ artist.name }}</p>
+    <p><strong>Date of Birth:</strong> {{ artist.dob }}</p>
+    <p><strong>Gender:</strong> {{ artist.get_gender_display }}</p>
+    <p><strong>Address:</strong> {{ artist.address }}</p>
+    <p><strong>First Release Year:</strong> {{ artist.first_release_year }}</p>
+    <p><strong>No. of Albums Released:</strong> {{ artist.no_of_albums_released }}</p>
+    <p><strong>Created At:</strong> {{ artist.created_at }}</p>
+    <p><strong>Updated At:</strong> {{ artist.updated_at }}</p>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Delete Music</title>
+</head>
+<body>
+    <h1>Delete Music</h1>
+    <p>Are you sure you want to delete the music "{{ music.title }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Delete</button>
+    </form>
+</body>
+</html>

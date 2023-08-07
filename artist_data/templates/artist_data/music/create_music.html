@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Music</title>
+</head>
+<body>
+    <h1>Create Music</h1>
+    <form method="post">
+        {% csrf_token %}
+        <label for="title">Title:</label>
+        <input type="text" name="title" required>
+        <br>
+        <label for="artist_id">Artist ID:</label>
+        <input type="number" name="artist_id" min="1" required>
+        <br>
+        <label for="album_name">Album Name:</label>
+        <input type="text" name="album_name" required>
+        <br>
+        <label for="genre">Genre:</label>
+        <select name="genre" required>
+            <option value="rnb">Rhythm and Blues</option>
+            <option value="country">Country</option>
+            <option value="classic">Classic</option>
+            <option value="rock">Rock</option>
+            <option value="jazz">Jazz</option>
+        </select>
+        <br>
+        <button type="submit">Create Music</button>
+    </form>
+</body>
+</html>
