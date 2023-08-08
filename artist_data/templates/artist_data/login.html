@@ -1,4 +1,4 @@
-<!-- artist_data/templates/artist_data/login.html -->
+<h1>Login Page</h1>
 <form method="post">
     {% csrf_token %}
     <label for="username">Username:</label>
@@ -7,3 +7,4 @@
     <input type="password" name="password" required><br>
     <button type="submit">Login</button>
 </form>
+<a href="{% url 'register' %}">New Registerations</a>

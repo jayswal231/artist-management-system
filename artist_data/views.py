@@ -48,7 +48,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-@login_required
+# @login_required
 def home(request):
     """
     This function is for dashboard.
@@ -66,9 +66,16 @@ def create_user(request):
         query = "INSERT INTO artist_data_user (username,first_name, last_name, email, password, phone, dob, gender, address, created_at, update_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         params = (data['username'],data['first_name'], data['last_name'], data['email'], data['password'], data['phone'], data['dob'], data['gender'], data['address'], current_time, current_time)
         execute_query(query, params)
-        return JsonResponse({'message': 'User created successfully'})
+        return redirect('all_users')
     return render(request, 'artist_data/user/create_user.html')
 
+
+def all_users(request):
+    user_query = "SELECT * FROM artist_data_user"
+    users_data = execute_query(user_query)
+    context = {}
+    context['users_data'] = users_data
+    return render(request, 'artist_data/home.html', {'users_data':users_data})
 
 
 def read_user(request, user_id):
@@ -110,7 +117,8 @@ def update_user(request, user_id):
         query = "UPDATE artist_data_user SET username = %s, first_name = %s, last_name = %s, email = %s, password = %s, phone = %s, dob = %s, gender = %s, address = %s WHERE id = %s"
         params = (data['username'],data['first_name'], data['last_name'], data['email'], data['password'], data['phone'], data['dob'], data['gender'], data['address'], user_id)
         execute_query(query, params)
-        return JsonResponse({'message': 'User updated successfully'})
+        # return JsonResponse({'message': 'User updated successfully'})
+        return redirect('all_users')
         
     else:
         return render(request, 'artist_data/user/update_user.html', {'user': user})
@@ -119,16 +127,14 @@ def update_user(request, user_id):
 
 
 def delete_user(request, user_id):
-    """
-    This function is for delete user .
-    """
     if request.method == 'POST':
         query = "DELETE FROM artist_data_user WHERE id = %s"
         params = (user_id,)
         execute_query(query, params)
-        return JsonResponse({'message': 'User deleted successfully'}, status=204)
+        messages.success(request, 'User deleted successfully')
+        return redirect('all_users')
     else:
-        return redirect('read_user')
+        return redirect('all_users')
 
 
 
