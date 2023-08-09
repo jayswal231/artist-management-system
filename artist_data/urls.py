@@ -18,6 +18,9 @@ from artist_data.views import (
     read_user, 
     update_user,
     delete_user,
+
+    create_artist,
+    all_artists,
 )
 
 urlpatterns = [
@@ -31,6 +34,9 @@ urlpatterns = [
     path('user/read/<int:user_id>/', read_user, name='read_user'),
     path('user/update/<int:user_id>/', update_user, name='update_user'),
     path('user/delete/<int:user_id>/', delete_user, name='delete_user'),
+
+    path('artist/create/', create_artist, name='create_artist'),
+    path('artist/all/', all_artists, name='all_artists'),
 
 ]
 

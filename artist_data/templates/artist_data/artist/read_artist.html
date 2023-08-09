@@ -1,17 +1,59 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
 <head>
-    <title>Artist Details</title>
+    <title>Artist Data</title>
+    <!-- Add Bootstrap CSS link here -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom CSS link here if needed -->
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'path-to-your-custom-css-file.css' %}"> -->
 </head>
 <body>
-    <h1>Artist Details</h1>
-    <p><strong>Name:</strong> {{ artist.name }}</p>
-    <p><strong>Date of Birth:</strong> {{ artist.dob }}</p>
-    <p><strong>Gender:</strong> {{ artist.get_gender_display }}</p>
-    <p><strong>Address:</strong> {{ artist.address }}</p>
-    <p><strong>First Release Year:</strong> {{ artist.first_release_year }}</p>
-    <p><strong>No. of Albums Released:</strong> {{ artist.no_of_albums_released }}</p>
-    <p><strong>Created At:</strong> {{ artist.created_at }}</p>
-    <p><strong>Updated At:</strong> {{ artist.updated_at }}</p>
+
+<div class="container">
+    <h1>Artist Data</h1>
+    <a href="{% url 'create_artist' %}" class="btn-success btn-sm">Create New Artist</a>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Date of Birth</th>
+                <th>Gender</th>
+                <th>Address</th>
+                <th>First Release Year</th>
+                <th>No. of Albums Released</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for artist_tuple in artist_data %}
+                {{artist_tuple}}
+                <tr>
+                    <td>{{ artist_tuple.0 }}</td>
+                    <td>{{ artist_tuple.1 }}</td>
+                    <td>{{ artist_tuple.2 }}</td>
+                    <td>{{ artist_tuple.3 }}</td>
+                    <td>{{ artist_tuple.4 }}</td>
+                    <td>{{ artist_tuple.5 }}</td>
+                    <td>{{ artist_tuple.6 }}</td>
+                    <td>{{ artist_tuple.7 }}</td>
+                    <td>{{ artist_tuple.8 }}</td>
+                    <td>{{ artist_tuple.9 }}</td>
+                    
+                </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Bootstrap JS and jQuery links here -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>

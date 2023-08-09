@@ -1,3 +1,4 @@
+from http.client import responses
 from django.shortcuts import redirect, render
 from django.http import HttpResponse
 from .utils import *
@@ -71,10 +72,11 @@ def create_user(request):
 
 
 def all_users(request):
+    """
+    This function is for retrieve all user details.
+    """
     user_query = "SELECT * FROM artist_data_user"
     users_data = execute_query(user_query)
-    context = {}
-    context['users_data'] = users_data
     return render(request, 'artist_data/home.html', {'users_data':users_data})
 
 
@@ -138,4 +140,26 @@ def delete_user(request, user_id):
 
 
 
+def create_artist(request):
+    """
+    This function is for create new artist.
+    """
+    if request.method == 'POST':
+        data = request.POST
+        current_time = timezone.now()
+        query = "INSERT INTO artist_data_artist (name, dob, gender, address, first_release_year, no_of_albums_released, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+        params = (data['name'], data['dob'], data['gender'], data['address'], data['first_release_year'], data['no_of_albums_released'], current_time, current_time)
+        execute_query(query, params)
+        print(params)
+        print(data['dob'],"------------------------------")
+        return HttpResponse("Artist created successfully!")
+    return render(request, 'artist_data/artist/create_artist.html')
 
+
+def all_artists(request):
+    """
+    This function is for retrieve all artist.
+    """
+    query = "SELECT * FROM artist_data_artist"
+    artist_data = execute_query(query)
+    return render(request, 'artist_data/artist/read_artist.html', {'artist_data':artist_data})
