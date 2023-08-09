@@ -14,6 +14,7 @@
 <div class="container">
     <h1>Artist Data</h1>
     <a href="{% url 'create_artist' %}" class="btn-success btn-sm">Create New Artist</a>
+    <a href="{% url 'upload_csv' %}" class="btn-primary btn-sm">Import or Export Artist</a>
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -30,7 +31,6 @@
         </thead>
         <tbody>
             {% for artist_tuple in artist_data %}
-                {{artist_tuple}}
                 <tr>
                     <td>{{ artist_tuple.0 }}</td>
                     <td>{{ artist_tuple.1 }}</td>
@@ -44,6 +44,15 @@
                     <td>{{ artist_tuple.9 }}</td>
                     
                 </tr>
+                <td>
+                    <div class="btn-group" role="group">
+                        <a href="{% url 'update_artist' artist_tuple.0 %}" class="btn btn-primary btn-sm">Update</a>
+                        <form action="{% url 'delete_artist' artist_tuple.0 %}" method="post" onsubmit="return confirm('Are you sure you want to delete this artist?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Delete Artist</button>
+                        </form>
+                    </div>
+                </td>
             
             {% endfor %}
         </tbody>
@@ -55,5 +64,3 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-</body>
-</html>

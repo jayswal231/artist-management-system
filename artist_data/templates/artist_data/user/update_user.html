@@ -2,43 +2,61 @@
 <html>
 <head>
     <title>Update User</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Update User</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username" value="{{ user.username }}" required>
-        <br>
-        <label for="first_name">First Name:</label>
-        <input type="text" name="first_name" value="{{ user.first_name }}" required>
-        <br>
-        <label for="last_name">Last Name:</label>
-        <input type="text" name="last_name" value="{{ user.last_name }}" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" name="email" value="{{ user.email }}" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" name="password" required>
-        <br>
-        <label for="phone">Phone:</label>
-        <input type="text" name="phone" value="{{ user.phone }}" required>
-        <br>
-        <label for="dob">Date of Birth:</label>
-        <input type="date" name="dob" value="{{ user.dob|date:"Y-m-d" }}">
-        <br>
-        <label for="gender">Gender:</label>
-        <select name="gender" required>
-            <option value="m" {% if user.gender == 'm' %}selected{% endif %}>Male</option>
-            <option value="f" {% if user.gender == 'f' %}selected{% endif %}>Female</option>
-            <option value="o" {% if user.gender == 'o' %}selected{% endif %}>Other</option>
-        </select>
-        <br>
-        <label for="address">Address:</label>
-        <input type="text" name="address" value="{{ user.address }}" required>
-        <br>
-        <button type="submit">Update User</button>
-    </form>
+    <div class="container mt-5">
+        <h1 class="text-center">Update User</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" name="username" value="{{ user.username }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" name="first_name" value="{{ user.first_name }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" name="last_name" value="{{ user.last_name }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" name="email" value="{{ user.email }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <input type="text" name="phone" value="{{ user.phone }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="dob">Date of Birth:</label>
+                <input type="datetime-local" name="dob" value="{{ user.dob|date:"Y-m-d" }}" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender:</label>
+                <select name="gender" class="form-control" required>
+                    <option value="m" {% if user.gender == 'm' %}selected{% endif %}>Male</option>
+                    <option value="f" {% if user.gender == 'f' %}selected{% endif %}>Female</option>
+                    <option value="o" {% if user.gender == 'o' %}selected{% endif %}>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="address">Address:</label>
+                <input type="text" name="address" value="{{ user.address }}" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Update User</button>
+        </form>
+    </div>
+
+    <!-- Add Bootstrap JS and jQuery (if needed) scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
