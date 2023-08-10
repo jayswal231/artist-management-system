@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Artist Songs</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Add your custom CSS link here if needed -->
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ artist.name }} Songs</h1>
+        <div>
+            <a href="{% url 'create_music' %}" class="btn btn-success">Create Music</a>
+            <a href="{% url 'all_artists' %}" class="btn btn-primary">Back to All Artists</a>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Artist</th>
+                <th>Title</th>
+                <th>Album Name</th>
+                <th>Genre</th>
+                <th>Created At</th>
+                <th>Updated At</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for song in songs %}
+                <tr>
+                    <td>{{ song.id }}</td>
+                    <td>{{ song.artist.name }}</td>
+                    <td>{{ song.title }}</td>
+                    <td>{{ song.album_name }}</td>
+                    <td>{{ song.genre }}</td>
+                    <td>{{ song.created_at }}</td>
+                    <td>{{ song.updated_at }}</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="{% url 'update_music' song.id %}" class="btn btn-primary btn-sm">Update</a>
+                            <form action="{% url 'delete_music' song.id %}" method="post"
+                                onsubmit="return confirm('Are you sure you want to delete this music?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Add Bootstrap JS and jQuery links here -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

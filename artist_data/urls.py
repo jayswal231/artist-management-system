@@ -23,9 +23,15 @@ from artist_data.views import (
     all_artists,
     update_artist,
     delete_asrtist,
+    artist_songs,
 
     export_artists_csv,
     upload_csv,
+
+    create_music,
+    all_music,
+    update_music,
+    delete_music,
 )
 
 urlpatterns = [
@@ -44,8 +50,14 @@ urlpatterns = [
     path('artist/all/', all_artists, name='all_artists'),
     path('artist/update/<int:artist_id>/', update_artist, name='update_artist'),
     path('artist/delete/<int:artist_id>/', delete_asrtist, name='delete_artist'),
+    path('artist/songs/<int:artist_id>/', artist_songs, name='artist_songs'),
 
     path('export-artists-csv/', export_artists_csv, name='export_artists_csv'),
     path('upload/', upload_csv, name='upload_csv'),
+
+    path('music/create/', create_music, name='create_music'),
+    path('music/all/', all_music, name='all_musics'),
+    path('music/update/<int:music_id>/', update_music, name='update_music'),
+    path('music/delete/<int:music_id>/', delete_music, name='delete_music'),
 ]
 

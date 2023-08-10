@@ -179,6 +179,7 @@ def update_artist(request, artist_id):
     return render(request, 'artist_data/artist/update_artist.html', {'artist': artist})
 
 
+
 def delete_asrtist(request, artist_id):
     """
     This function is for artist delete.
@@ -190,6 +191,31 @@ def delete_asrtist(request, artist_id):
         return HttpResponse('Artist deleted successfully!')
     return redirect('all_artists')
 
+
+def artist_songs(request, artist_id):
+    query = """
+    SELECT m.id, a.name, m.title, m.album_name, m.genre, m.created_at, m.updated_at
+    FROM artist_data_music AS m
+    INNER JOIN artist_data_artist AS a ON m.artist_id_id = a.id
+    WHERE a.id = %s
+    """
+    params = (artist_id,)
+    rows = execute_query(query,params)
+    songs = []
+    for row in rows:
+        song = {
+            'id': row[0],
+            'artist': row[1],
+            'title': row[2],
+            'album_name': row[3],
+            'genre': row[4],
+            'created_at': row[5],
+            'updated_at': row[6],
+        }
+        songs.append(song)
+    
+    artist = get_object_or_404(Artist, id=artist_id)
+    return render(request, 'artist_data/artist/view_songs.html', {'artist': artist, 'songs': songs})
 
 
 def upload_csv(request):
@@ -234,3 +260,46 @@ def export_artists_csv(request):
 
 
 # For Musics
+def create_music(request):
+    """
+    This function is for create music.
+    """
+    # artists=Artist.objects.all()
+    qr = "SELECT * FROM artist_data_artist" 
+    artists=execute_query(qr)
+    if request.method == 'POST':
+        data = request.POST
+        artist_id = data['artist_id']
+        artist = get_object_or_404(Artist, id=artist_id)
+        current_time = timezone.now()
+        query = "INSERT INTO artist_data_music (artist_id_id, title, album_name, genre, created_at, updated_at) VALUES (%s, %s, %s, %s, %s, %s)"
+        params = (artist_id, data['title'], data['album_name'], data['genre'], current_time, current_time)
+        execute_query(query, params)
+        return HttpResponse('Music created successfully!')
+    return render(request, 'artist_data/music/create_music.html',{'artists':artists})
+
+
+def all_music(request):
+    query = "SELECT * FROM artist_data_music"
+    musics = execute_query(query)
+    return render(request, 'artist_data/music/read_music.html', {'musics':musics})
+
+
+def update_music(request, music_id):
+    music = get_object_or_404(Music, id=music_id)
+    if request.method == 'POST':
+        data = request.POST
+        query = "UPDATE artist_data_music SET artist_id_id = %s, title = %s, album_name = %s, genre = %s WHERE id = %s"
+        params = (data['artist_id'], data['title'], data['album_name'], data['genre'], music_id)
+        execute_query(query, params)
+        return HttpResponse('Music Updated Successfully!')
+    else:
+        return render(request, 'artist_data/music/update_music.html',{'music':music})
+    
+def delete_music(request, music_id):
+    if request.method == 'POST':
+        query = "DELETE FROM Artist_data_music WHERE id=%s"
+        params = (music_id,)
+        execute_query(query,params)
+        return HttpResponse('Music Deleted Successfully!')
+    return render(request, 'artist_data/music/delete_music.html')

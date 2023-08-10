@@ -2,13 +2,18 @@
 <html>
 <head>
     <title>Delete Music</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Delete Music</h1>
-    <p>Are you sure you want to delete the music "{{ music.title }}"?</p>
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
+    <div class="container mt-5">
+        <h1>Delete Music</h1>
+        <p>Are you sure you want to delete the music?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'all_musics' %}" class="btn btn-primary ml-2">Cancel</a>
+        </form>
+    </div>
 </body>
 </html>

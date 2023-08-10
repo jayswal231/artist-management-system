@@ -1,31 +1,45 @@
 <!DOCTYPE html>
+{% load static %}
 <html>
 <head>
     <title>Create Music</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'artist_data/css/style.css' %}">
 </head>
 <body>
-    <h1>Create Music</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="title">Title:</label>
-        <input type="text" name="title" required>
-        <br>
-        <label for="artist_id">Artist ID:</label>
-        <input type="number" name="artist_id" min="1" required>
-        <br>
-        <label for="album_name">Album Name:</label>
-        <input type="text" name="album_name" required>
-        <br>
-        <label for="genre">Genre:</label>
-        <select name="genre" required>
-            <option value="rnb">Rhythm and Blues</option>
-            <option value="country">Country</option>
-            <option value="classic">Classic</option>
-            <option value="rock">Rock</option>
-            <option value="jazz">Jazz</option>
-        </select>
-        <br>
-        <button type="submit">Create Music</button>
-    </form>
+    <div class="container">
+        <h1>Create Music</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" name="title" required>
+            </div>
+            <div class="form-group">
+                <label for="artist_id">Artist ID:</label>
+                <select class="form-control" name="artist_id" required>
+                    {% for artist in artists %}
+                        <option value="{{ artist.0 }}">{{ artist.0 }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="album_name">Album Name:</label>
+                <input type="text" class="form-control" name="album_name" required>
+            </div>
+            <div class="form-group">
+                <label for="genre">Genre:</label>
+                <select class="form-control" name="genre" required>
+                    <option value="rnb">Rhythm and Blues</option>
+                    <option value="country">Country</option>
+                    <option value="classic">Classic</option>
+                    <option value="rock">Rock</option>
+                    <option value="jazz">Jazz</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Create Music</button>
+        </form>
+    </div>
 </body>
 </html>
