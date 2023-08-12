@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'artist_data/css/style2.css' %}">
+    <title>Dashboard</title>
+</head>
+<body>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="card-title text-center mb-4">Dashboard</h2>
+            <div class="dashboard-buttons">
+                <a href="{% url 'all_users' %}" class="btn btn-primary">All Users</a>
+                <a href="{% url 'all_artists' %}" class="btn btn-primary">All Artists</a>
+                <a href="{% url 'all_musics' %}" class="btn btn-primary">All Music</a>
+            </div>
+            <div class="text-center mt-4">
+                <a href="{% url 'logout' %}" class="btn btn-secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

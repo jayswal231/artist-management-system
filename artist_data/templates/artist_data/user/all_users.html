@@ -6,8 +6,7 @@
     <title>User Data</title>
     <!-- Add Bootstrap CSS link here -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Add your custom CSS link here if needed -->
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'path-to-your-custom-css-file.css' %}"> -->
+    
 </head>
 <body>
 
@@ -33,22 +32,23 @@
         <tbody>
             {% for user_tuple in users_data %}
                 <tr>
-                    <td>{{ user_tuple.0 }}</td>
-                    <td>{{ user_tuple.1 }}</td>
-                    <td>{{ user_tuple.2 }}</td>
-                    <td>{{ user_tuple.3 }}</td>
-                    <td>{{ user_tuple.4 }}</td>
-                    <td>{{ user_tuple.6 }}</td>
-                    <td>{{ user_tuple.7 }}</td>
-                    <td>{{ user_tuple.8 }}</td>
-                    <td>{{ user_tuple.9 }}</td>
-                    <td>{{ user_tuple.10 }}</td>
-                    <td>{{ user_tuple.11 }}</td>
+                    <td>{{ user_tuple.id }}</td>
+                    <th>{{user_tuple.username}}</th>
+                    <td>{{ user_tuple.first_name }}</td>
+                    <td>{{ user_tuple.last_name }}</td>
+                    <td>{{ user_tuple.email }}</td>
+                    <td>{{ user_tuple.phone }}</td>
+                    <td>{{ user_tuple.dob }}</td>
+                    <td>{{ user_tuple.gender }}</td>
+                    <td>{{ user_tuple.address }}</td>
+                    <td>{{ user_tuple.created_at }}</td>
+                    <td>{{ user_tuple.update_at }}</td>
+                    
                 </tr>
                 <td>
                     <div class="btn-group" role="group">
-                        <a href="{% url 'update_user' user_tuple.0 %}" class="btn btn-primary btn-sm">Update</a>
-                        <form action="{% url 'delete_user' user_tuple.0 %}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                        <a href="{% url 'update_user' user_tuple.id %}" class="btn btn-primary btn-sm">Update</a>
+                        <form action="{% url 'delete_user' user_tuple.id %}" method="post" onsubmit="return confirm('Are you sure you want to delete this user?');">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-danger btn-sm">Delete User</button>
                         </form>

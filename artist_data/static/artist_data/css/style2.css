@@ -1,0 +1,116 @@
+
+/* Custom Styles */
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.card {
+    background-color: #e6f7ff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.dashboard-buttons .btn-primary {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.dashboard-buttons .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.dashboard-buttons .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border-color: #6c757d;
+}
+
+.dashboard-buttons .btn-secondary:hover {
+    background-color: #565d63;
+    border-color: #565d63;
+}
+
+
+/* Custom Styles register*/
+body {
+    background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.registration-container {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 400px;
+    width: 100%;
+}
+
+.registration-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.registration-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.registration-container button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.registration-container label {
+    font-weight: bold;
+}
+
+.registration-container input[type="text"],
+.registration-container input[type="password"],
+.registration-container input[type="email"],
+.registration-container select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+
+
+/* Add custom styles to your registration form card */
+.card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    padding: 15px;
+}
+
+.card-title {
+    margin: 0;
+}
+
+.card-body {
+    padding: 20px;
+}

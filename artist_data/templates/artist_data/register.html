@@ -1,6 +1,87 @@
-<h1>New Registerations</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Register</button>
-</form>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">New User Registeration</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" class="registration-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.first_name.label_tag }}
+                                {{ form.first_name }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.last_name.label_tag }}
+                                {{ form.last_name }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.email.label_tag }}
+                                {{ form.email }}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.password1.id_for_label }}">Password</label>
+                                {{ form.password1 }}
+                            </div>
+                            <div class="form-group">
+                                <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                                {{ form.password2 }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.phone.label_tag }}
+                                {{ form.phone }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.dob.label_tag }}
+                                {{ form.dob }}
+                            </div>
+
+                            <div class="form-group">
+                                {{ form.gender.label_tag }}
+                                {{ form.gender }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.address.label_tag }}
+                                {{ form.address }}
+                            </div>
+                            {% if form.errors %}
+                            <div class="alert alert-danger">
+                                <ul>
+                                    {% for field in form %}
+                                    {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                    {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+                        </form>
+
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

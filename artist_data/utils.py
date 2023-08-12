@@ -1,5 +1,6 @@
 from django.db import connection
 
+
 def execute_query(query, params=None):
     with connection.cursor() as cursor:
         if params is None:
@@ -8,3 +9,6 @@ def execute_query(query, params=None):
             cursor.execute(query, params)
         result = cursor.fetchall()
     return result
+
+
+

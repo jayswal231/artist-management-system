@@ -128,10 +128,17 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-
-AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',
-]
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+# ]
+# AUTHENTICATION_BACKENDS = ['artist_data.utils.CustomUserModelBackend']
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+
+AUTH_USER_MODEL = 'artist_data.User'
+# AUTHENTICATION_BACKENDS = [
+#     'artist_data.backends.CustomUserBackend',
+
+# ]

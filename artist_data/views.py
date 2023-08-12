@@ -11,6 +11,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import csv
+from django.contrib.auth.hashers import make_password
+
 # Create your views here.
 
 def register(request):
@@ -27,19 +29,18 @@ def register(request):
     return render(request, 'artist_data/register.html', {'form': form})
 
 
+
 def login_view(request):
-    """
-    This function is for registered user login.
-    """
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
+        print(user,"------------------------")
         if user is not None:
             login(request, user)
-            return redirect('home')  
+            return redirect('home') 
         else:
-            messages.error(request, 'Invalid login credentials.')
+            messages.error(request, 'Invalid credentials')
     return render(request, 'artist_data/login.html')
 
 
@@ -50,17 +51,18 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-# @login_required
+@login_required
 def home(request):
     """
     This function is for dashboard.
     """
-    return render(request, 'artist_data/home.html')
+    return render(request, 'artist_data/dashboard.html')
 
 
 
 
 # For Users
+@login_required
 def create_user(request):
     """
     This function is for new user register.
@@ -68,50 +70,49 @@ def create_user(request):
     if request.method == 'POST':
         data = request.POST
         current_time = timezone.now()
-        query = "INSERT INTO artist_data_user (username,first_name, last_name, email, password, phone, dob, gender, address, created_at, update_at) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        params = (data['username'],data['first_name'], data['last_name'], data['email'], data['password'], data['phone'], data['dob'], data['gender'], data['address'], current_time, current_time)
+        query = "INSERT INTO artist_data_user (username,first_name, last_name, email, password, phone, dob, gender, address,is_superuser,is_staff,is_active,date_joined, created_at, update_at) VALUES (%s,%s,%s,%s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        params = (data['username'],data['first_name'], data['last_name'], data['email'], data['password'], data['phone'], data['dob'], data['gender'], data['address'],False,False,False,False, current_time, current_time)
         execute_query(query, params)
         return redirect('all_users')
     return render(request, 'artist_data/user/create_user.html')
 
 
+# def all_users(request):
+#     """
+#     This function is for retrieve all user details.
+#     """
+#     user_query = "SELECT * FROM artist_data_user"
+#     users_data = execute_query(user_query)
+#     return render(request, 'artist_data/user/all_users.html', {'users_data':users_data})
+@login_required
 def all_users(request):
     """
-    This function is for retrieve all user details.
+    This function is for retrieving all user details and displaying them.
     """
-    user_query = "SELECT * FROM artist_data_user"
+    user_query = "SELECT id,username,first_name, last_name, email, password, phone, dob, gender, address, created_at, update_at FROM artist_data_user"
     users_data = execute_query(user_query)
-    return render(request, 'artist_data/home.html', {'users_data':users_data})
 
-
-def read_user(request, user_id):
-    """
-    This function is for view specific user details.
-    """
-    user_query = "SELECT * FROM artist_data_user WHERE id = %s"
-    params = (user_id,)
-    user_data = execute_query(user_query, params)
-
-    if user_data:
-        user = user_data[0] 
+    formatted_users_data = []
+    for user_tuple in users_data:
         user_dict = {
-            'id': user[0],
-            'username': user[1],
-            'first_name': user[2],
-            'last_name': user[3],
-            'email': user[4],
-            'phone': user[6],
-            'dob': user[7],
-            'gender': user[8],
-            'address': user[9],
-            'created_at': user[10],
-            'updated_at': user[11],
+            'id':user_tuple[0],
+            'username':user_tuple[1],
+            'first_name': user_tuple[2],
+            'last_name': user_tuple[3],
+            'email': user_tuple[4],
+            'password': user_tuple[5],
+            'phone': user_tuple[6],
+            'dob': user_tuple[7],
+            'gender': user_tuple[8],
+            'address': user_tuple[9],
+            'created_at': user_tuple[10],
+            'update_at': user_tuple[11]
         }
-        return render(request, 'artist_data/user/read_user.html', {'user': user_dict})
-    else:
-        return JsonResponse({'message': 'User not found'}, status=404)
+        formatted_users_data.append(user_dict)
 
+    return render(request, 'artist_data/user/all_users.html', {'users_data': formatted_users_data})
 
+@login_required
 def update_user(request, user_id):
     """
     This function is for update user details.
@@ -119,15 +120,14 @@ def update_user(request, user_id):
     user = get_object_or_404(User, id=user_id)
     if request.method == 'POST':
         data = request.POST
-        query = "UPDATE artist_data_user SET username = %s, first_name = %s, last_name = %s, email = %s, password = %s, phone = %s, dob = %s, gender = %s, address = %s WHERE id = %s"
+        query = "UPDATE artist_data_user SET  username=%s,first_name = %s, last_name = %s, email = %s, password = %s, phone = %s, dob = %s, gender = %s, address = %s WHERE id = %s"
         params = (data['username'],data['first_name'], data['last_name'], data['email'], data['password'], data['phone'], data['dob'], data['gender'], data['address'], user_id)
         execute_query(query, params)
-        # return JsonResponse({'message': 'User updated successfully'})
         return redirect('all_users')        
     else:
         return render(request, 'artist_data/user/update_user.html', {'user': user})
 
-
+@login_required
 def delete_user(request, user_id):
     if request.method == 'POST':
         query = "DELETE FROM artist_data_user WHERE id = %s"
@@ -141,6 +141,7 @@ def delete_user(request, user_id):
 
 
 # For Artist
+@login_required
 def create_artist(request):
     """
     This function is for create new artist.
@@ -154,7 +155,7 @@ def create_artist(request):
         return HttpResponse("Artist created successfully!")
     return render(request, 'artist_data/artist/create_artist.html')
 
-
+@login_required
 def all_artists(request):
     """
     This function is for retrieve all artist.
@@ -164,7 +165,7 @@ def all_artists(request):
     return render(request, 'artist_data/artist/read_artist.html', {'artist_data':artist_data})
 
 
-
+@login_required
 def update_artist(request, artist_id):
     """
     This function is for artist update.
@@ -179,7 +180,7 @@ def update_artist(request, artist_id):
     return render(request, 'artist_data/artist/update_artist.html', {'artist': artist})
 
 
-
+@login_required
 def delete_asrtist(request, artist_id):
     """
     This function is for artist delete.
@@ -191,7 +192,7 @@ def delete_asrtist(request, artist_id):
         return HttpResponse('Artist deleted successfully!')
     return redirect('all_artists')
 
-
+@login_required
 def artist_songs(request, artist_id):
     query = """
     SELECT m.id, a.name, m.title, m.album_name, m.genre, m.created_at, m.updated_at
@@ -203,6 +204,7 @@ def artist_songs(request, artist_id):
     rows = execute_query(query,params)
     songs = []
     for row in rows:
+        print(row)
         song = {
             'id': row[0],
             'artist': row[1],
@@ -217,7 +219,7 @@ def artist_songs(request, artist_id):
     artist = get_object_or_404(Artist, id=artist_id)
     return render(request, 'artist_data/artist/view_songs.html', {'artist': artist, 'songs': songs})
 
-
+@login_required
 def upload_csv(request):
     """
     This function is for upload artist data as csv formate.
@@ -239,7 +241,7 @@ def upload_csv(request):
         form = CSVUploadForm()
     return render(request, 'artist_data/artist/upload.html', {'form': form})
 
-
+@login_required
 def export_artists_csv(request):
     """
     This function is for export artist data from database.
@@ -260,6 +262,7 @@ def export_artists_csv(request):
 
 
 # For Musics
+@login_required
 def create_music(request):
     """
     This function is for create music.
@@ -278,14 +281,21 @@ def create_music(request):
         return HttpResponse('Music created successfully!')
     return render(request, 'artist_data/music/create_music.html',{'artists':artists})
 
-
+@login_required
 def all_music(request):
+    """
+    This function is for all music.
+    """
     query = "SELECT * FROM artist_data_music"
     musics = execute_query(query)
     return render(request, 'artist_data/music/read_music.html', {'musics':musics})
 
 
+@login_required
 def update_music(request, music_id):
+    """
+    This function is for update music.
+    """
     music = get_object_or_404(Music, id=music_id)
     if request.method == 'POST':
         data = request.POST
@@ -296,7 +306,12 @@ def update_music(request, music_id):
     else:
         return render(request, 'artist_data/music/update_music.html',{'music':music})
     
+
+@login_required   
 def delete_music(request, music_id):
+    """
+    This function is for delete music.
+    """
     if request.method == 'POST':
         query = "DELETE FROM Artist_data_music WHERE id=%s"
         params = (music_id,)

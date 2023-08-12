@@ -5,7 +5,6 @@
     <title>Artist Songs</title>
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Add your custom CSS link here if needed -->
 </head>
 <body>
 
@@ -34,7 +33,7 @@
             {% for song in songs %}
                 <tr>
                     <td>{{ song.id }}</td>
-                    <td>{{ song.artist.name }}</td>
+                    <td>{{ song.artist}}</td>
                     <td>{{ song.title }}</td>
                     <td>{{ song.album_name }}</td>
                     <td>{{ song.genre }}</td>
